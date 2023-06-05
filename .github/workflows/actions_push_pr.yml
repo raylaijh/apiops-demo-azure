@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Giving permissions to read .insomnia folder
+        uses: chmod 777 /Users/raymond.lai@konghq.com/Desktop/work/gitops-demo/actions-runner/_work/dino-park-insomnia/dino-park-insomnia/.insomnia  
       - name: Generate Kong declarative configuration from Spec
         run: inso generate config ./.insomnia/ApiSpec/spc_ebe477c850074ae8a02e2ee044982951.yaml --type declarative > kong2.x.yaml
       - name: Convert configuration for 3.0
