@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Copy spec file
-        uses: sudo cp /Users/raymond.lai@konghq.com/Desktop/work/gitops-demo/actions-runner/_work/dino-park-insomnia/dino-park-insomnia/.insomnia/ApiSpec/spc_ebe477c850074ae8a02e2ee044982951.yaml .
+        uses: sudo cp ./.insomnia/ApiSpec/spc_ebe477c850074ae8a02e2ee044982951.yaml .
       - name: Generate Kong declarative configuration from Spec
         run: inso generate config ./spc_ebe477c850074ae8a02e2ee044982951.yaml --type declarative > kong2.x.yaml
       - name: Convert configuration for 3.0
