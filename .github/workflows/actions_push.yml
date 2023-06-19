@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set base Kong state
-        run: deck sync -s kong-base-1.yaml  
+        run: deck sync -s kong-base-2.yaml  
       - name: Backup existing configuration
         run: deck dump -o kong-base.yaml 
       - run: inso export spec 'Dino Park' -o dinopark.yaml --ci
