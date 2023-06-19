@@ -17,7 +17,7 @@ jobs:
       - name: Backup existing configuration
         run: deck dump -o kong-base.yaml 
       - run: inso export spec 'Dino Park' -o dinopark.yaml --ci
-        name: Export blog spec  
+        name: Export Dino Park spec  
       - name: Generate Kong declarative configuration from Spec
         run: inso generate config dinopark.yaml -o kong-new.yaml --tags gitops --ci 
       - name: Convert configuration for 3.0
