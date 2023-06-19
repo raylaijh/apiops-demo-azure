@@ -12,15 +12,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Set base Kong state
+        run: deck sync -s kong-base-1.yaml  
+      - name: Backup existing configuration
+        run: deck dump -o kong-base.yaml 
+      - run: inso export spec 'Dino Park' -o dinopark.yaml --ci
+        name: Export blog spec  
       - name: Generate Kong declarative configuration from Spec
-        run: inso generate config ./.insomnia/ApiSpec/spc_ebe477c850074ae8a02e2ee044982951.yaml --type declarative > kong2.x.yaml
+        run: inso generate config dinopark.yaml -o kong-new.yaml --tags gitops --ci 
       - name: Convert configuration for 3.0
-        run: deck convert --from kong-gateway-2.x --to kong-gateway-3.x --input-file kong2.x.yaml --output-file kong3-b.x.yaml
+        run: deck convert --from kong-gateway-2.x --to kong-gateway-3.x --input-file kong-new.yaml --output-file kong3-b.x.yaml
       - name: fix temporary regex issue 
         run: sed 's/\\//' kong3-b.x.yaml > kong3.x.yaml
       - name: Validate Kong declarative configuration
         run: deck validate -s kong3.x.yaml
       - name: Deploy declarative config
-        run: deck sync -s kong3.x.yaml
+        run: deck sync -s kong3.x.yaml -s kong-base.yaml
       - name: Publish Spec to Dev Portal
-        run: cd ./.insomnia/ApiSpec && http --check-status --ignore-stdin PUT :8001/default/files/specs/dinopark.yaml contents=@spc_ebe477c850074ae8a02e2ee044982951.yaml
+        run: http --check-status --ignore-stdin PUT :9001/default/files/specs/dinopark.yaml contents=@dinopark.yaml
