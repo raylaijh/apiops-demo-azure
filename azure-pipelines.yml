@@ -1,0 +1,50 @@
+trigger:
+  branches:
+    exclude:
+      - '*'
+
+pr:
+  branches:
+    exclude:
+      - '*'
+
+jobs:
+- job: deploy_to_kong
+  displayName: 'Apply generated configuration to local Kong gateway and update API documentation'
+  pool:
+    vmImage: 'windows-latest'
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+      architecture: 'x64'
+  - checkout: self
+    displayName: 'Checkout'
+  - script: |
+      deck sync -s kong-base-2.yaml
+    displayName: 'Set base Kong state'
+  - script: |
+      deck dump -o kong-base.yaml
+    displayName: 'Backup existing configuration'
+  - script: |
+      inso export spec 'Dino Park' -o dinopark.yaml --ci
+    displayName: 'Export Dino Park spec'
+  - script: |
+      inso generate config dinopark.yaml -o kong-new.yaml --tags gitops --ci
+    displayName: 'Generate Kong declarative configuration from Spec'
+  - script: |
+      deck convert --from kong-gateway-2.x --to kong-gateway-3.x --input-file kong-new.yaml --output-file kong3-b.x.yaml
+    displayName: 'Convert configuration for 3.0'
+  - script: |
+      sed 's/\\//' kong3-b.x.yaml > kong3.x.yaml
+    displayName: 'fix temporary regex issue'
+  - script: |
+      deck validate -s kong3.x.yaml
+    displayName: 'Validate Kong declarative configuration'
+  - script: |
+      deck sync -s kong3.x.yaml -s kong-base.yaml
+    displayName: 'Deploy declarative config'
+  - script: |
+      http --check-status --ignore-stdin PUT :8001/default/files/specs/dinopark.yaml contents=@dinopark.yaml
+    displayName: 'Publish Spec to Dev Portal'
