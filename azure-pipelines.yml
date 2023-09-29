@@ -30,7 +30,7 @@ jobs:
         curl -sL https://github.com/Kong/insomnia/releases/download/lib%403.6.0/inso-linux-3.6.0.tar.xz -o inso.tar.xz
         sudo tar -xf inso.tar.xz -C /tmp/
         cp /tmp/inso /usr/local/bin/
-    displayName: 'Install decK'
+    displayName: 'Install Insomnia'
   - script: |
       deck sync -s kong-base-2.yaml
     displayName: 'Set base Kong state'
