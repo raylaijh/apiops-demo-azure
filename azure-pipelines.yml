@@ -32,7 +32,6 @@ jobs:
       cp /tmp/inso /usr/local/bin/
     displayName: 'Install Insomnia'
   - script: |
-      sudo su 
       sudo echo "nameserver ns1-35.azure-dns.com" >> /etc/resolv.conf
     displayName: 'Install Azure Nameservers'  
   - script: |
