@@ -34,6 +34,9 @@ jobs:
       sudo cp /tmp/inso /usr/local/bin/
     displayName: 'Install Insomnia'
   - script: |
+      deck sync -s kong-base-2.yaml --kong-addr http://admin.kongdemo.net --headers Kong-Admin-Token:kong
+    displayName: 'Ensure clean Kong state'  
+  - script: |
       deck dump -o kong-base.yaml --kong-addr http://admin.kongdemo.net --headers Kong-Admin-Token:kong
     displayName: 'Backup existing configuration'
   - script: |
