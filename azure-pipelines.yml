@@ -56,5 +56,5 @@ jobs:
       deck sync -s kong3.x.yaml -s kong-base.yaml
     displayName: 'Deploy declarative config'
   - script: |
-      http --check-status --ignore-stdin PUT :8001/default/files/specs/dinopark.yaml contents=@dinopark.yaml
+      http --check-status --ignore-stdin PUT admin.kongdemo.net/default/files/specs/dinopark.yaml contents=@dinopark.yaml
     displayName: 'Publish Spec to Dev Portal'
