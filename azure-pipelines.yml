@@ -12,9 +12,9 @@ jobs:
 - job: deploy_to_kong
   displayName: 'Apply generated configuration to local Kong gateway and update API documentation'
   pool:
-  name: azure-meetup
-  demands:
-   - agent.name -equals runner
+    name: azure-meetup
+    demands:
+     - agent.name -equals runner
   steps:
   - task: UsePythonVersion@0
     inputs:
