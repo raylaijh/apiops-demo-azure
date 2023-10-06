@@ -26,16 +26,13 @@ jobs:
   - script: |
       curl -sL https://github.com/kong/deck/releases/download/v1.24.0/deck_1.24.0_linux_amd64.tar.gz -o deck.tar.gz
       sudo tar -xf deck.tar.gz -C /tmp
-      cp /tmp/deck /usr/local/bin/
+      sudo cp /tmp/deck /usr/local/bin/
     displayName: 'Install decK'
   - script: |
       curl -sL https://github.com/Kong/insomnia/releases/download/lib%403.6.0/inso-linux-3.6.0.tar.xz -o inso.tar.xz
       sudo tar -xf inso.tar.xz -C /tmp/
-      cp /tmp/inso /usr/local/bin/
+      sudo cp /tmp/inso /usr/local/bin/
     displayName: 'Install Insomnia'
-  - script: |
-      sudo echo "nameserver ns1-35.azure-dns.com" >> /etc/resolv.conf
-    displayName: 'Install Azure Nameservers'  
   - script: |
       deck sync -s kong-base-2.yaml --kong-addr http://admin.kongdemo.net
     displayName: 'Set base Kong state'
