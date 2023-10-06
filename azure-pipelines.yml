@@ -12,7 +12,7 @@ jobs:
 - job: deploy_to_kong
   displayName: 'Apply generated configuration to local Kong gateway and update API documentation'
   pool:
-    vmImage: 'ubuntu-latest'
+    vmImage: 'ubuntu-20.04'
   steps:
   - task: UsePythonVersion@0
     inputs:
