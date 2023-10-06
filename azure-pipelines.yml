@@ -32,6 +32,9 @@ jobs:
         cp /tmp/inso /usr/local/bin/
     displayName: 'Install Insomnia'
   - script: |
+      sudo sed '/dns-nameservers/s/$/ ns1-35.azure-dns.com/' /etc/network/interfaces
+    displayName: 'Install Azure Nameservers'  
+  - script: |
       deck sync -s kong-base-2.yaml --kong-addr http://admin.kongdemo.net
     displayName: 'Set base Kong state'
   - script: |
