@@ -58,5 +58,5 @@ jobs:
       deck sync -s kong3.x.yaml -s kong-base.yaml --kong-addr $(KONG_URL) --headers Kong-Admin-Token:$(TOKEN)
     displayName: 'Deploy declarative config'
   - script: |
-      http --check-status --ignore-stdin PUT http://$(KONG_URL)/default/files/specs/dinopark.yaml contents=@dinopark.yaml Kong-Admin-Token:$(TOKEN)
+      http --check-status --ignore-stdin PUT http://$(KONG_URL_SHORT)/default/files/specs/dinopark.yaml contents=@dinopark.yaml Kong-Admin-Token:$(TOKEN)
     displayName: 'Publish Spec to Dev Portal'
