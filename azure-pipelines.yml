@@ -34,10 +34,10 @@ jobs:
       sudo cp /tmp/inso /usr/local/bin/
     displayName: 'Install Insomnia'
   - script: |
-      deck sync -s kong-base-2.yaml --kong-addr http://admin.kongdemo.net --konnect-token kong
+      deck sync -s kong-base-2.yaml --kong-addr http://admin.kongdemo.net --headers Kong-Admin-Token:kong
     displayName: 'Set base Kong state'
   - script: |
-      deck dump -o kong-base.yaml --kong-addr http://admin.kongdemo.net --konnect-token kong
+      deck dump -o kong-base.yaml --kong-addr http://admin.kongdemo.net --headers Kong-Admin-Token:kong
     displayName: 'Backup existing configuration'
   - script: |
       inso export spec 'Dino Park' -o dinopark.yaml --ci 
@@ -46,16 +46,16 @@ jobs:
       inso generate config dinopark.yaml -o kong-new.yaml --tags gitops --ci
     displayName: 'Generate Kong declarative configuration from Spec'
   - script: |
-      deck convert --from kong-gateway-2.x --to kong-gateway-3.x --input-file kong-new.yaml --output-file kong3-b.x.yaml --kong-addr http://admin.kongdemo.net --konnect-token kong
+      deck convert --from kong-gateway-2.x --to kong-gateway-3.x --input-file kong-new.yaml --output-file kong3-b.x.yaml --kong-addr http://admin.kongdemo.net --headers Kong-Admin-Token:kong
     displayName: 'Convert configuration for 3.0'
   - script: |
       sed 's/\\//' kong3-b.x.yaml > kong3.x.yaml
     displayName: 'fix temporary regex issue'
   - script: |
-      deck validate -s kong3.x.yaml --kong-addr http://admin.kongdemo.net --konnect-token kong
+      deck validate -s kong3.x.yaml --kong-addr http://admin.kongdemo.net --headers Kong-Admin-Token:kong
     displayName: 'Validate Kong declarative configuration'
   - script: |
-      deck sync -s kong3.x.yaml -s kong-base.yaml --kong-addr http://admin.kongdemo.net --konnect-token kong
+      deck sync -s kong3.x.yaml -s kong-base.yaml --kong-addr http://admin.kongdemo.net --headers Kong-Admin-Token:kong
     displayName: 'Deploy declarative config'
   - script: |
       http --check-status --ignore-stdin PUT http://admin.kongdemo.net/default/files/specs/dinopark.yaml contents=@dinopark.yaml Kong-Admin-Token:kong
