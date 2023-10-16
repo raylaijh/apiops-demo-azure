@@ -11,7 +11,7 @@ services:
   retries: 5
   routes:
   - hosts:
-    - admin-test.kongtest.net
+    - admin-azure.kongtest.net
     https_redirect_status_code: 426
     name: kong.azure-kong-admin.azure-kong-admin.admin.kongdemo.net.8444
     path_handling: v0
