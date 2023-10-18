@@ -12,7 +12,7 @@ Sandbox/experiment repository to try out [Insomnia](https://insomnia.rest)'s Git
 ## Run
 This repo is meant for running APIOps on Azure environment. Hence the instructions are based on importation from Azure DevOps environment. Clone this repo to an Azure DevOps Repo if necessary. 
 
-- Import this repository on Insomnia via Git (link to repo is: `https://github.com/raylaijh/apiops-demo-azure.git`)
+- Import your Azure DevOps repo to Insomnia via Git
 ![Insomnia Git Sync image](imgs/git.png)
   
 - Perform a change on Insomnia and commit to Azure DevOps repo. Pipeline should trigger CICD flow for APIOps. Review azure-pipelines.yml for details of each CICD steps defined in this flow.
